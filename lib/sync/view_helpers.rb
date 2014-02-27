@@ -40,7 +40,8 @@ module Sync
                 channelDestroy: '#{partial.channel_for_action(:destroy)}',
                 selectorStart:  '#{partial.selector_start}',
                 selectorEnd:    '#{partial.selector_end}',
-                refetch:        #{refetch}
+                refetch:        #{refetch},
+                refetch_url:    '#{url_for(params.merge(action: :refetch))}'
               });
               partial.subscribe();
             });
@@ -95,7 +96,8 @@ module Sync
               channel:      '#{creator.channel}',
               selector:     '#{creator.selector}',
               direction:    '#{direction}',
-              refetch:      #{refetch}
+              refetch:      #{refetch},
+              refetch_url:  '#{url_for(params.merge(action: :refetch))}'
             });
             creator.subscribe();
           });

@@ -191,6 +191,7 @@ class Sync.Partial
     selectorStart: null
     selectorEnd: null
     refetch: false
+    refetch_url: null
 
     subscriptionUpdate: null
     subscriptionDestroy: null
@@ -207,6 +208,7 @@ class Sync.Partial
   #   selectorEnd - The String selector to mark ending in the DOM
   #   refetch - The Boolean to refetch markup from server or receive markup
   #             from pubsub update. Default false.
+  #   refetch_url - ...
   #
   constructor: (attributes = {}) ->
     @[key] = attributes[key] ? defaultValue for key, defaultValue of @attributes
@@ -227,7 +229,8 @@ class Sync.Partial
     @subscriptionDestroy = @adapter.subscribe @channelDestroy, => @remove()
 
   
-  update: (html) -> @view.beforeUpdate(html, {})
+  update: (html) -> 
+    @view.beforeUpdate(html, {})
 
   remove: -> 
     @view.beforeRemove()
@@ -255,7 +258,7 @@ class Sync.Partial
   refetchFromServer: (callback) ->
     $.ajax
       type: "GET"
-      url: "/sync/refetch.json"
+      url: @refetch_url
       data:
         auth_token: @authToken
         partial_name: @name
@@ -274,6 +277,7 @@ class Sync.PartialCreator
     selector: null
     direction: 'append'
     refetch: false
+    refetch_url: null
 
   # attributes
   #
@@ -284,6 +288,7 @@ class Sync.PartialCreator
   #   direction - The String direction to insert. One of "append" or "prepend"
   #   refetch - The Boolean to refetch markup from server or receive markup
   #             from pubsub update. Default false.
+  #   refetch_url - ...
   #
   constructor: (attributes = {}) ->
     @[key] = attributes[key] ? defaultValue for key, defaultValue of @attributes
@@ -325,6 +330,7 @@ class Sync.PartialCreator
       selectorStart: selectorStart
       selectorEnd: selectorEnd
       refetch: @refetch
+      refetch_url: @refetch_url
     )
     partial.subscribe()
     partial.insert(html)
