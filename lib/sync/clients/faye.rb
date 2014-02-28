@@ -38,6 +38,9 @@ module Sync
         end
 
         def self.batch_publish_synchronous(messages)
+          puts '###############################'
+          puts messages.to_yaml
+          puts '###############################'
           Net::HTTP.post_form(
             URI.parse(Sync.server), 
             message: batch_messages_query_hash(messages).to_json
